@@ -20,6 +20,8 @@ function App() {
   const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([]);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(true);
+  const [category, setCategory] = useState("11")
+  const [categoryName, setCategoryName] = useState("Film")
 
   const startQuiz = async () => {
     setLoading(true);
@@ -27,7 +29,8 @@ function App() {
 
     const newQuestions = await fetchQuizQuestions(
       TOTAL_QUESTIONS,
-      Difficulty.easy
+      Difficulty.easy,
+      category
     );
 
     setQuestions(newQuestions);
@@ -70,14 +73,33 @@ function App() {
       <Wrapper className="App">
         <h1>Quiz</h1>
         {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
-          <button className="start" onClick={startQuiz}>
-            Start
-          </button>
+          <>
+            <select name="trivia_category" value={category} onChange={(e) => {setCategory(e.target.value); 
+              setCategoryName(e.target.options[e.target.selectedIndex].innerHTML)}}>
+              <option value="11">Film</option>
+              <option value="12">Music</option>
+              <option value="18">Computers</option>
+              <option value="19">Mathematics</option>
+              <option value="20">Mythology</option>
+              <option value="21">Sports</option>
+              <option value="22">Geography</option>
+              <option value="23">History</option>
+              <option value="24">Politics</option>
+              <option value="25">Art</option>
+              <option value="26">Celebrities</option>
+              <option value="27">Animals</option>
+              <option value="28">Vehicles</option>
+            </select>
+            <button className="start" onClick={startQuiz}>
+              Start
+            </button>
+          </>
         ) : null}
         {!gameOver && <p className="score">Score: {score}</p>}
         {loading && <p>Loading Questions...</p>}
         {!loading && !gameOver && questions.length !== 0 ? (
           <QuestionCard
+            categoryName={categoryName}
             question={questions[questionIdx].question}
             answers={questions[questionIdx].answers}
             checkAnswer={checkAnswer}

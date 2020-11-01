@@ -4,6 +4,7 @@ import { AnswerObject } from "../App";
 import { Wrapper, ButtonWrapper } from "./QuestionCard.styles";
 
 type Props = {
+  categoryName: string;
   question: string;
   answers: string[];
   checkAnswer: (e: React.MouseEvent<HTMLButtonElement>) => void;
@@ -13,6 +14,7 @@ type Props = {
 };
 
 const QuestionCard: React.FC<Props> = ({
+  categoryName,
   question,
   answers,
   checkAnswer,
@@ -22,6 +24,9 @@ const QuestionCard: React.FC<Props> = ({
 }) => {
   return (
     <Wrapper>
+      <p className="category">
+        Category: {categoryName}
+      </p>
       <p>
         Question: {questionNr}/{totalQuestions}
       </p>
